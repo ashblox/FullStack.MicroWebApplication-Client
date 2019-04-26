@@ -11,7 +11,7 @@ import {ChannelService} from '../../services/channel.service';
   templateUrl: './private-channels.component.html',
   styleUrls: ['./private-channels.component.css']
 })
-export class PrivateChannelsComponent implements OnInit, OnChanges {
+export class PrivateChannelsComponent implements OnInit {
 
   channels: Channel[] = [];
   currentUser: User;
@@ -29,10 +29,6 @@ export class PrivateChannelsComponent implements OnInit, OnChanges {
     this.getChannels();
     this.currentUser = this.sessionStorageService.retrieve('currentUser');
     this.sessionStorageService.store('privateChannel', null);
-  }
-
-  ngOnChanges() {
-    this.getChannels();
   }
 
   getChannels(): void {
