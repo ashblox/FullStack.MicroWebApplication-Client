@@ -5,6 +5,8 @@ import {User} from '../../models/user';
 import {SessionStorageService} from 'ngx-webstorage';
 import {Channel} from '../../models/channel';
 import {ChannelService} from '../../services/channel.service';
+import {filter} from "rxjs/operators";
+import {allowNewBindingsForStylingContext} from "@angular/core/src/render3/styling/class_and_style_bindings";
 
 @Component({
   selector: 'app-private-channels',
@@ -36,13 +38,13 @@ export class PrivateChannelsComponent implements OnInit, OnChanges {
   }
 
   getChannels(): void {
-    this.channelService.getPrivateChannels()
-      .subscribe(privateChannelsOfUser => {
-        privateChannelsOfUser.forEach(privateChannel => {
-          this.setUsersString(privateChannel);
-          this.channels.push(privateChannel);
-        });
+    this.channelService.getChannels().subscribe(channels => {
+      channels.filter(channel =>
+       channel.isPrivate
+      ).map(channel=> {
+        this.channels.push(channel);
       });
+    });
   }
 
   setUsersString(channel: Channel): void {
@@ -68,6 +70,7 @@ export class PrivateChannelsComponent implements OnInit, OnChanges {
           this.userService.joinChannel(this.currentUser.username, c.channelName).subscribe(() => {
             channel.userString = user.firstName;
             channel.channelName = newChannel.channelName;
+
             this.channels.push(channel);
           });
         });
@@ -82,7 +85,7 @@ export class PrivateChannelsComponent implements OnInit, OnChanges {
   }
 
   updateChannel(channel: Channel): void {
-    this.sessionStorageService.store('currentChannel', channel);
+    this.sessionStorageService.store("currentChannel", channel);
     this.currentChannel = channel;
   }
 

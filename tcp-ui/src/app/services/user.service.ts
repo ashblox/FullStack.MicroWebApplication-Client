@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {User} from '../models/user';
-import {Observable, Subject, Subscription} from 'rxjs';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {User} from "../models/user";
+import {Observable} from "rxjs";
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -71,4 +71,8 @@ export class UserService {
     return this.http.put(`${this.usersUrl}/logout/${username}`, user, httpOptions);
   }
 
+  deleteUser(user: User | number): Observable<User> {
+    const id = typeof user === 'number' ? user : user.id;
+    return this.http.delete<User>(`${this.usersUrl}/${id}`, httpOptions);
+  }
 }

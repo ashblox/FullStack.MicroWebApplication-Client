@@ -24,8 +24,8 @@ export class ChannelService {
     return this.http.get<Channel[]>(this.channelsUrl);
   }
 
-  getPrivateChannels(): Observable<Channel[]> {
-    return this.http.get<Channel[]>(`/server/channels/private/` + this.session.retrieve('currentUser').username);
+  makePrivate(channel: Channel): Observable<any>{
+    return this.http.put(`/server/channels/${channel.id}`, channel, httpOptions);
   }
 
   getChannel(id: number): Observable<Channel> {

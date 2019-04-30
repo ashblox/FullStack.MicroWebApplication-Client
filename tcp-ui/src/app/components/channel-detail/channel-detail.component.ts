@@ -45,6 +45,7 @@ export class ChannelDetailComponent implements OnInit {
 
   getChannel(): void {
         this.channel = this.session.retrieve("currentChannel");
+        console.log(this.channel);
         this.channel.users = [];
         this.getUsers(this.channel);
   }

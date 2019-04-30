@@ -21,8 +21,10 @@
         <div class="card-header">Available Channels</div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item" *ngFor="let channel of channels">
+            <div *ngIf="!channel.private">
             <a routerLink="/detail/{{channel.id}}" (click)="updateChannel(channel)">{{channel.channelName}}</a>
             <span class="badge badge-light" *ngIf="channel.channelName!='Main Channel'" (click)="delete(channel.id);">delete</span>
+            </div>
           </li>
         </ul>
       </div>
